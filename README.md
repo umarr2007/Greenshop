@@ -9,3 +9,4 @@ Currently, two official plugins are available:
 # green-shop
 # greenshop_blogs
 # Greenshop
+# Greenshop
