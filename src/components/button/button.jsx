@@ -7,7 +7,7 @@ MainButton.propTypes = {
   googleName: PropTypes.string, // yangi props - googleName
 };
 
-function MainButton({ children, googleName }) {
+function MainButton({ children, googleName, ...props }) {
   return (
     <Button
       variant="contained"
@@ -20,6 +20,7 @@ function MainButton({ children, googleName }) {
         zIndex: "999",
         cursor: "pointer",
       }}
+      {...props}
     >
       <Typography
         sx={{ fontSize: "16px", fontWeight: "400", lineHeight: "100%" }}

@@ -3,6 +3,8 @@ import { useState } from "react"
 import MainButton from "../../button/button"
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useSelector } from "react-redux";
+
 
 function Categories() {
   const [categoryBy, setCategoryBy] = useState('house-plants')
@@ -14,8 +16,10 @@ function Categories() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const user = useSelector((state) => state.user);
 
-    // getting APIs
+
+
     const fetchCategory = async () => {
       const res = await axios.get(`https://green-shop-backend.onrender.com/api/flower/category?access_token=6506e8bd6ec24be5de357927`);
       return res.data;
@@ -28,7 +32,6 @@ function Categories() {
       const res = await axios.get(`https://green-shop-backend.onrender.com/api/flower/category/${categoryBy}?access_token=6506e8bd6ec24be5de357927`);
       return res.data;
     };
-
     const { data: categoryData} = useQuery({
       queryKey: ["category"],
       queryFn: fetchCategory,
@@ -41,7 +44,6 @@ function Categories() {
       queryKey: ["flowers", categoryBy],
       queryFn: () => fetchFlowersByCategory(categoryBy),
     });
-
     const handleChange = (event) => {
       setAge(event.target.value);
     };
@@ -53,7 +55,6 @@ function Categories() {
       setActiveCategory(path)
       handleClose()
     }
-    // console.log(flowersData)
   return (
     <div className="max-w-[1200px] mx-auto flex gap-[50px] px-[20px] sm:px-[40px]">
         <div className="py-[14px] px-[20px] hidden lg:flex md:flex-col w-[310px]">
@@ -168,6 +169,7 @@ function Categories() {
                       <img className="cursor-pointer" src="/flowers/like.svg" alt="like" />
                       <img className="cursor-pointer" src="/navbar/search_icon.svg" alt="search" />
                     </div>
+                    
                     {item.discount && <div className={`absolute left-0 top-[20px]`}>
                       <MainButton >13% OFF</MainButton>
                     </div>}
@@ -176,6 +178,10 @@ function Categories() {
                   <h2 className="text-[18px] font-[700] leading-[16px] text-[#46A358] mb-[6px]">${item.price} <span className="font-[400] line-through text-[#A5A5A5]"> {item.discount && '$'}{item.discount &&  item.discount_price}</span></h2>
                 </div>
               ))}
+              
+            
+              
+
             </div>
             <div className="w-full flex justify-center pt-[100px] ">
               {!flowersData?.data.length && (

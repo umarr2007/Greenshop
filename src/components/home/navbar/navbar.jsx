@@ -19,12 +19,22 @@ import LoginIcon from "@mui/icons-material/Login";
 import BasicTabs from "../../auth/login-modal";
 import { Toaster } from "react-hot-toast";
 import MainButton from "../../button/button";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [open, setOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   console.log(user);
-
+  const handleClick = () => {
+    if (location.pathname === "/shop") {
+      navigate("/"); 
+    } else {
+      navigate("/shop"); 
+    }
+  };
   const toggleDrawer = (state) => () => {
     setOpen(state);
   };
@@ -104,8 +114,8 @@ function Navbar() {
               </svg>
             </IconButton>
 
-            <IconButton>
-              <Badge badgeContent={6} color="success">
+            <IconButton onClick={handleClick}>
+              <Badge >
                 <img src="/navbar/shop_icon.svg" alt="" />
               </Badge>
             </IconButton>

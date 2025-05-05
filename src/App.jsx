@@ -18,6 +18,7 @@ import {
 } from "./components";
 import NotFound from "./pages/not-found";
 import PropTypes from "prop-types";
+import Shop from "./components/shop_icon/Shop";
 
 App.propTypes = {
   children: PropTypes.node.isRequired,
@@ -90,7 +91,11 @@ function App() {
             }
           />
         </Route>
+
         <Route path="*" element={<NotFound />} />
+        <Route>
+          <Route path="/shop" element={<Shop />} />
+        </Route>
       </Route>
     )
   );
