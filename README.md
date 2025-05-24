@@ -10,3 +10,4 @@ Currently, two official plugins are available:
 # greenshop_blogs
 # Greenshop
 # Greenshop
+# greenshop__install
