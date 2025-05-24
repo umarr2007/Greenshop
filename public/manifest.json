@@ -1,0 +1,19 @@
+{
+  "name": "Home Green",
+  "short_name": "Home Green",
+  "description": "Your eco-friendly home solution",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4CAF50",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/navbar/green-shop-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+} 

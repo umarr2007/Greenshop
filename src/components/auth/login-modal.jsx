@@ -20,11 +20,10 @@ function a11yProps(index) {
     "aria-controls": `tabpanel-${index}`,
   };
 }
-
 export default function BasicTabs({ setOpen2 }) {
-  const [tabIndex, changeTab] = useState(0); // `setTabIndex` emas, `changeTab` deb nomladik
+  const [tabIndex, changeTab] = useState(0); 
 
-  const switchTab = (_, index) => changeTab(index); // setTabIndex ni bevosita ishlatmadik
+  const switchTab = (_, index) => changeTab(index); 
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -54,7 +53,6 @@ export default function BasicTabs({ setOpen2 }) {
     </Box>
   );
 }
-
 BasicTabs.propTypes = {
   setOpen2: PropTypes.func.isRequired,
 };

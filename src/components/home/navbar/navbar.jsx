@@ -12,7 +12,7 @@ import {
   ListItemText,
   Modal,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import LoginIcon from "@mui/icons-material/Login";
@@ -21,18 +21,19 @@ import { Toaster } from "react-hot-toast";
 import MainButton from "../../button/button";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   console.log(user);
-  const handleClick = () => {
+  const handleClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     if (location.pathname === "/shop") {
-      navigate("/"); 
+      navigate("/");
     } else {
-      navigate("/shop"); 
+      navigate("/shop");
     }
   };
   const toggleDrawer = (state) => () => {
@@ -41,6 +42,41 @@ function Navbar() {
   const [open2, setOpen2] = useState(false);
   const handleOpen = () => setOpen2(true);
   const handleClose = () => setOpen2(false);
+
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallButton(true);
+    };
+
+    const handleAppInstalled = () => {
+      console.log('PWA was installed');
+      setShowInstallButton(false);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
+
+  const handleInstallButtonClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User response to the install prompt: ${outcome}`);
+      setDeferredPrompt(null);
+      setShowInstallButton(false);
+    }
+  };
+
   return (
     <>
       <AppBar
@@ -96,7 +132,7 @@ function Navbar() {
             sx={{ gap: { xs: "15px", md: "30px" } }}
             alignItems="center"
           >
-            <IconButton>
+            <IconButton onClick={handleClick}>
               <img src="/navbar/search_icon.svg" alt="" />
             </IconButton>
             <IconButton sx={{ display: { xs: "none", md: "flex" } }}>
@@ -115,10 +151,17 @@ function Navbar() {
             </IconButton>
 
             <IconButton onClick={handleClick}>
-              <Badge >
+              <Badge>
                 <img src="/navbar/shop_icon.svg" alt="" />
               </Badge>
             </IconButton>
+            
+            {showInstallButton && (
+              <Button variant="contained" onClick={handleInstallButtonClick} sx={{ ml: 2 }}>
+                Ilovani o'rnatish
+              </Button>
+            )}
+
             <Box>
               {!user && (
                 <Button
